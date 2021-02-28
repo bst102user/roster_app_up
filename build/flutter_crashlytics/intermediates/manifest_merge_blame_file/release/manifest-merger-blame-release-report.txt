@@ -1,0 +1,22 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.kiwi.fluttercrashlytics" >
+4
+5    <uses-sdk android:minSdkVersion="16" />
+5-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml
+6
+7    <application>
+7-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml:5:5-11:19
+8        <activity android:name="com.kiwi.fluttercrashlytics.CrashActivity" />
+8-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml:6:9-51
+8-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml:6:19-48
+9
+10        <meta-data
+10-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml:8:9-10:37
+11            android:name="firebase_crashlytics_collection_enabled"
+11-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml:9:13-67
+12            android:value="false" />
+12-->C:\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_crashlytics-1.0.0\android\src\main\AndroidManifest.xml:10:13-34
+13    </application>
+14
+15</manifest>
