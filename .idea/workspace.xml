@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6aa59cf2-a10a-40bd-962c-a5537f66bab3" name="Default Changelist" comment="Merge branch 'master' of https://github.com/bst102user/roster_app_up into monu&#10;&#10;# Conflicts:&#10;#&#9;README.md">
+    <list default="true" id="6aa59cf2-a10a-40bd-962c-a5537f66bab3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GoogleService-Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GoogleService-Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/output" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/output" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ios/Runner" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -42,14 +43,14 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\projects\roster_app" />
-      <recent name="E:\projects\roster_app\ios\Runner" />
-      <recent name="E:\projects\roster_app\android\app\src\main\res\drawable" />
-      <recent name="E:\projects\roster_app\android\app" />
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\projects\roster_app\assets\images" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\projects\roster_app\ios\Runner" />
+      <recent name="E:\projects\roster_app" />
+      <recent name="E:\projects\roster_app\android\app\src\main\res\drawable" />
+      <recent name="E:\projects\roster_app\android\app" />
       <recent name="E:\projects\roster_app\assets\images" />
     </key>
   </component>
@@ -190,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614518859775</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="change app name">
+      <created>1614525802164</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1614525802164</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -242,7 +250,8 @@
     <MESSAGE value="test Ios" />
     <MESSAGE value="test Ios add google plist file" />
     <MESSAGE value="Merge branch 'master' of https://github.com/bst102user/roster_app_up into monu&#10;&#10;# Conflicts:&#10;#&#9;README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/bst102user/roster_app_up into monu&#10;&#10;# Conflicts:&#10;#&#9;README.md" />
+    <MESSAGE value="change app name" />
+    <option name="LAST_COMMIT_MESSAGE" value="change app name" />
   </component>
   <component name="WindowStateProjectService">
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612432078989">
@@ -261,10 +270,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="538" y="129" key="AndroidProcessChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1608532305992" />
-    <state x="481" y="0" key="CommitChangelistDialog2" timestamp="1614518895247">
+    <state x="481" y="0" key="CommitChangelistDialog2" timestamp="1614525801085">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="481" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614518895247" />
+    <state x="481" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614525801085" />
     <state width="652" height="438" key="DebuggerActiveHint" timestamp="1610958049964">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -277,22 +286,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="553" y="257" key="Github.ShareDialog/0.0.1366.728@0.0.1366.728" timestamp="1614504538051" />
-    <state width="1323" height="209" key="GridCell.Tab.0.bottom" timestamp="1614498763706">
+    <state width="1323" height="209" key="GridCell.Tab.0.bottom" timestamp="1614527741180">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="209" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1614498763706" />
-    <state width="1323" height="209" key="GridCell.Tab.0.center" timestamp="1614498763706">
+    <state width="1323" height="209" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1614527741180" />
+    <state width="1323" height="209" key="GridCell.Tab.0.center" timestamp="1614527741180">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="209" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1614498763706" />
-    <state width="1323" height="209" key="GridCell.Tab.0.left" timestamp="1614498763706">
+    <state width="1323" height="209" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1614527741180" />
+    <state width="1323" height="209" key="GridCell.Tab.0.left" timestamp="1614527741180">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="209" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1614498763706" />
-    <state width="1323" height="209" key="GridCell.Tab.0.right" timestamp="1614498763706">
+    <state width="1323" height="209" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1614527741180" />
+    <state width="1323" height="209" key="GridCell.Tab.0.right" timestamp="1614527741180">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="209" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1614498763706" />
+    <state width="1323" height="209" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1614527741180" />
     <state x="129" y="55" key="MergeDialog" timestamp="1614517749513">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -305,10 +314,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1614504658788" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614518863111">
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614525808355">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614518863111" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614525808355" />
     <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1607941482722">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
