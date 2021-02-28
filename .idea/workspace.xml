@@ -168,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614515960278</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="test Ios add google plist file">
+      <created>1614516143431</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1614516143431</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -238,10 +245,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="538" y="129" key="AndroidProcessChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1608532305992" />
-    <state x="341" y="0" key="CommitChangelistDialog2" timestamp="1614515959031">
+    <state x="341" y="0" key="CommitChangelistDialog2" timestamp="1614516142107">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="341" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614515959031" />
+    <state x="341" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614516142107" />
     <state width="652" height="438" key="DebuggerActiveHint" timestamp="1610958049964">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -274,10 +281,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1614504658788" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614515987147">
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614516161602">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614515987147" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614516161602" />
     <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1607941482722">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
