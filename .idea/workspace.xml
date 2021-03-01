@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6aa59cf2-a10a-40bd-962c-a5537f66bab3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/.filecache" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/.filecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/app.dill" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/app.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/debug_android_application.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/debug_android_application.stamp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/flutter_assets.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/flutter_assets.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/kernel_snapshot.d" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/kernel_snapshot.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/kernel_snapshot.stamp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/flutter_build/bcdc8e3f08ad0996e82ffeebfbce265f/kernel_snapshot.stamp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codemagic.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/login.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +42,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ios/Runner" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lawyer-app-master" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -41,14 +50,14 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\projects\roster_app\assets\images" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\projects\roster_app\ios\Runner" />
       <recent name="E:\projects\roster_app" />
       <recent name="E:\projects\roster_app\android\app\src\main\res\drawable" />
       <recent name="E:\projects\roster_app\android\app" />
+      <recent name="E:\projects\roster_app\assets\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\projects\roster_app\assets\images" />
     </key>
   </component>
@@ -231,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614579676871</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="change development key">
+      <created>1614580825759</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1614580825759</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -304,18 +320,18 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="538" y="129" key="AndroidProcessChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1608532305992" />
-    <state x="481" y="0" key="CommitChangelistDialog2" timestamp="1614579675859">
+    <state x="481" y="0" key="CommitChangelistDialog2" timestamp="1614580824826">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="481" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614579675859" />
+    <state x="481" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614580824826" />
     <state width="652" height="438" key="DebuggerActiveHint" timestamp="1610958049964">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="652" height="438" key="DebuggerActiveHint/0.0.1366.728@0.0.1366.728" timestamp="1610958049964" />
-    <state x="463" y="90" key="FileChooserDialogImpl" timestamp="1613979507948">
+    <state x="463" y="90" key="FileChooserDialogImpl" timestamp="1614593106522">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="463" y="90" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1613979507948" />
+    <state x="463" y="90" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1614593106522" />
     <state x="553" y="257" key="Github.ShareDialog" timestamp="1614504538051">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -348,10 +364,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1614504658788" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614579679612">
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614580828706">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614579679612" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614580828706" />
     <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1607941482722">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

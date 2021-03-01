@@ -92,7 +92,7 @@ class LoginState extends State<Login> {
   void initState() {
     super.initState();
     // initPlatformState();
-    // getFcmToken();
+    getFcmToken();
   }
 
 
