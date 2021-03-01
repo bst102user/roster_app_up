@@ -4,8 +4,6 @@
     <list default="true" id="6aa59cf2-a10a-40bd-962c-a5537f66bab3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/GoogleService-Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GoogleService-Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/output" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614528488622</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="change development key">
+      <created>1614537874639</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1614537874655</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,7 +271,8 @@
     <MESSAGE value="test Ios add google plist file" />
     <MESSAGE value="Merge branch 'master' of https://github.com/bst102user/roster_app_up into monu&#10;&#10;# Conflicts:&#10;#&#9;README.md" />
     <MESSAGE value="change app name" />
-    <option name="LAST_COMMIT_MESSAGE" value="change app name" />
+    <MESSAGE value="change development key" />
+    <option name="LAST_COMMIT_MESSAGE" value="change development key" />
   </component>
   <component name="WindowStateProjectService">
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612432078989">
@@ -285,10 +291,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="538" y="129" key="AndroidProcessChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1608532305992" />
-    <state x="481" y="0" key="CommitChangelistDialog2" timestamp="1614528487592">
+    <state x="481" y="0" key="CommitChangelistDialog2" timestamp="1614537872941">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="481" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614528487592" />
+    <state x="481" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1614537872941" />
     <state width="652" height="438" key="DebuggerActiveHint" timestamp="1610958049964">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -329,10 +335,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1614504658788" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614528492182">
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1614537877111">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614528492182" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1614537877111" />
     <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1607941482722">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -341,14 +347,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="110" y="120" width="1146" height="488" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1366.728@0.0.1366.728" timestamp="1607949922888" />
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1613706133682">
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1614571920257">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1613706133682" />
-    <state x="379" y="96" width="637" height="536" key="find.popup" timestamp="1614525775914">
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1614571920257" />
+    <state x="379" y="96" width="637" height="536" key="find.popup" timestamp="1614574910852">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="96" width="637" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1614525775914" />
+    <state x="379" y="96" width="637" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1614574910852" />
     <state x="484" y="155" key="git4idea.merge.GitMergeDialog" timestamp="1614517714131">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
