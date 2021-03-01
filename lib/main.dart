@@ -1,21 +1,16 @@
 import 'dart:async';
 
-import 'package:android_intent/android_intent.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
 import 'package:roster_app/pages/dashboard.dart';
 import 'package:roster_app/pages/login.dart';
-import 'package:roster_app/pages/schedules.dart';
-import 'package:roster_app/pages/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  // Firebase.initializeApp();
   runApp(MyApp());
   // DynamicLinkService().handleDynamicLinks();
 }
@@ -57,12 +52,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Position _currentPosition;
-  String _currentAddress;
   SharedPreferences mPref;
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final Location location = Location();
+  // final Location location = Location();
   getFcmToken()async{
     mPref = await SharedPreferences.getInstance();
     _firebaseMessaging.getToken().then((token){
@@ -100,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     getFcmToken();
-    openLocationSetting();
+    // openLocationSetting();
     Timer(
         Duration(seconds: 3),
     ()async{
@@ -120,14 +112,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void openLocationSetting() async {
-    bool serviceStatus = await location.serviceEnabled();
-    if (serviceStatus) {
-      // service enabled
-    } else {
-      // service not enabled, restricted or permission denied
-    }
-  }
+  // void openLocationSetting() async {
+  //   bool serviceStatus = await location.serviceEnabled();
+  //   if (serviceStatus) {
+  //     // service enabled
+  //   } else {
+  //     // service not enabled, restricted or permission denied
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

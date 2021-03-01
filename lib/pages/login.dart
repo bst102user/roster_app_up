@@ -25,11 +25,11 @@ class LoginState extends State<Login> {
   TextEditingController passController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final Location location = Location();
-  String _platformVersion = 'Unknown';
-  String _imei = 'Unknown';
-  String _serial = 'Unknown';
-  String _androidID = 'Unknown';
-  Map _idMap = Map();
+  // String _platformVersion = 'Unknown';
+  // String _imei = 'Unknown';
+  // String _serial = 'Unknown';
+  // String _androidID = 'Unknown';
+  // Map _idMap = Map();
 
   goToMainPage() {
     Navigator.of(context).pushAndRemoveUntil(
@@ -48,50 +48,50 @@ class LoginState extends State<Login> {
     return fcmTokenStr;
   }
 
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    String imei;
-    String serial;
-    String androidID;
-    Map idMap;
-
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await AndroidMultipleIdentifier.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    bool requestResponse = await AndroidMultipleIdentifier.requestPermission();
-    print("NEVER ASK AGAIN SET TO: ${AndroidMultipleIdentifier.neverAskAgain}");
-
-    try {
-      // imei = await AndroidMultipleIdentifier.imeiCode;
-      // serial = await AndroidMultipleIdentifier.serialCode;
-      // androidID = await AndroidMultipleIdentifier.androidID;
-
-      idMap = await AndroidMultipleIdentifier.idMap;
-    } catch (e) {
-      idMap = Map();
-      idMap["imei"] = 'Failed to get IMEI.';
-      idMap["serial"] = 'Failed to get Serial Code.';
-      idMap["androidId"] = 'Failed to get Android id.';
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-      _idMap = idMap;
-      _imei = _idMap["imei"];
-      _serial = _idMap["serial"];
-      _androidID = _idMap["androidId"];
-    });
-  }
+  // Future<void> initPlatformState() async {
+  //   String platformVersion;
+  //   String imei;
+  //   String serial;
+  //   String androidID;
+  //   Map idMap;
+  //
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     platformVersion = await AndroidMultipleIdentifier.platformVersion;
+  //   } on PlatformException {
+  //     platformVersion = 'Failed to get platform version.';
+  //   }
+  //
+  //   bool requestResponse = await AndroidMultipleIdentifier.requestPermission();
+  //   print("NEVER ASK AGAIN SET TO: ${AndroidMultipleIdentifier.neverAskAgain}");
+  //
+  //   try {
+  //     // imei = await AndroidMultipleIdentifier.imeiCode;
+  //     // serial = await AndroidMultipleIdentifier.serialCode;
+  //     // androidID = await AndroidMultipleIdentifier.androidID;
+  //
+  //     idMap = await AndroidMultipleIdentifier.idMap;
+  //   } catch (e) {
+  //     idMap = Map();
+  //     idMap["imei"] = 'Failed to get IMEI.';
+  //     idMap["serial"] = 'Failed to get Serial Code.';
+  //     idMap["androidId"] = 'Failed to get Android id.';
+  //   }
+  //   if (!mounted) return;
+  //
+  //   setState(() {
+  //     _platformVersion = platformVersion;
+  //     _idMap = idMap;
+  //     _imei = _idMap["imei"];
+  //     _serial = _idMap["serial"];
+  //     _androidID = _idMap["androidId"];
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    // initPlatformState();
     // getFcmToken();
   }
 
