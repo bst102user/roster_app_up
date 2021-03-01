@@ -53,16 +53,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   SharedPreferences mPref;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final Location location = Location();
-  getFcmToken()async{
-    mPref = await SharedPreferences.getInstance();
-    _firebaseMessaging.getToken().then((token){
-      print(token);
-      mPref.setString('firebase_token', token);
-    });
-
-  }
+  // getFcmToken()async{
+  //   mPref = await SharedPreferences.getInstance();
+  //   _firebaseMessaging.getToken().then((token){
+  //     print(token);
+  //     mPref.setString('firebase_token', token);
+  //   });
+  //
+  // }
 
  goToNextPage() async{
    mPref = await SharedPreferences.getInstance();
@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    getFcmToken();
+    // getFcmToken();
     // openLocationSetting();
     Timer(
         Duration(seconds: 3),
