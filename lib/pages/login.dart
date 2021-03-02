@@ -49,6 +49,7 @@ class LoginState extends State<Login> {
   }
 
   // Future<void> initPlatformState() async {
+  // Future<void> initPlatformState() async {
   //   String platformVersion;
   //   String imei;
   //   String serial;
