@@ -16,15 +16,14 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Roster',
       theme: ThemeData(
-        primarySwatch:  MaterialColor(0xFF401461, {
-          50:  Color(0xFF401461),
+        primarySwatch: MaterialColor(0xFF401461, {
+          50: Color(0xFF401461),
           100: Color(0xFF401461),
           200: Color(0xFF401461),
           300: Color(0xFF401461),
@@ -38,7 +37,9 @@ class MyApp extends StatelessWidget {
         }),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: "3c",),
+      home: MyHomePage(
+        title: "3c",
+      ),
     );
   }
 }
@@ -53,61 +54,53 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   SharedPreferences mPref;
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   // final Location location = Location();
-  // getFcmToken()async{
-  //   mPref = await SharedPreferences.getInstance();
-  //   _firebaseMessaging.getToken().then((token){
-  //     print(token);
-  //     mPref.setString('firebase_token', token);
-  //   });
-  //
-  // }
 
- goToNextPage() async{
-   mPref = await SharedPreferences.getInstance();
-   bool checkLoginStatus = mPref.get("login_status");
-   if(checkLoginStatus == null){
-     checkLoginStatus = false;
-   }
-   if(checkLoginStatus){
-     SchedulerBinding.instance.addPostFrameCallback((_) {
-       Navigator.push(
-           context,
-           new MaterialPageRoute(
-               builder: (context) => Dashboard()));
-     });
-   }
-   else {
-     SchedulerBinding.instance.addPostFrameCallback((_) {
-       Navigator.push(
-           context,
-           new MaterialPageRoute(
-               builder: (context) => Login()));
-     });
-   }
- }
+  getFcmToken() async {
+    mPref = await SharedPreferences.getInstance();
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+      mPref.setString('firebase_token', token);
+    });
+  }
+
+  goToNextPage() async {
+    mPref = await SharedPreferences.getInstance();
+    bool checkLoginStatus = mPref.get("login_status");
+    if (checkLoginStatus == null) {
+      checkLoginStatus = false;
+    }
+    if (checkLoginStatus) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+            context, new MaterialPageRoute(builder: (context) => Dashboard()));
+      });
+    } else {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+            context, new MaterialPageRoute(builder: (context) => Login()));
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    // getFcmToken();
+    getFcmToken();
     // openLocationSetting();
-    Timer(
-        Duration(seconds: 3),
-    ()async{
+    Timer(Duration(seconds: 3), () async {
       mPref = await SharedPreferences.getInstance();
       bool checkLoginStatus = mPref.get("login_status");
-      if(checkLoginStatus == null){
+      if (checkLoginStatus == null) {
         checkLoginStatus = false;
       }
-      if(checkLoginStatus){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => Dashboard()));
-      }
-      else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => Login()));
+      if (checkLoginStatus) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
+      } else {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => Login()));
       }
     });
   }
@@ -125,7 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Container(
         color: const Color(0xFFffffff),
-        child:Image.asset('assets/images/splash_icon.png')
-    );
+        child: Image.asset('assets/images/splash_icon.png'));
   }
 }

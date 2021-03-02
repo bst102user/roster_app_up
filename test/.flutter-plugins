@@ -1,0 +1,26 @@
+# This is a generated file; do not edit or check into version control.
+android_intent=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/android_intent-0.3.7+7/
+android_multiple_identifier=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/android_multiple_identifier-1.0.3/
+device_info=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/
+firebase_analytics=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-6.3.0/
+firebase_analytics_web=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics_web-0.1.1/
+firebase_core=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.5.3/
+firebase_core_web=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.1+1/
+firebase_dynamic_links=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_dynamic_links-0.6.3/
+firebase_messaging=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_messaging-7.0.3/
+firebase_performance=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_performance-0.4.3/
+flutter_crashlytics=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_crashlytics-1.0.0/
+flutter_local_notifications=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-1.5.0+1/
+fluttertoast=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-7.1.1/
+geolocator=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-5.3.2+2/
+google_api_availability=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_api_availability-2.0.4/
+location=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/location-3.1.0/
+location_permissions=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/location_permissions-3.0.0+1/
+location_web=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/location_web-1.0.0/
+path_provider_linux=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/
+path_provider_windows=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+1/
+shared_preferences=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.12/
+shared_preferences_linux=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+2/
+shared_preferences_macos=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+10/
+shared_preferences_web=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/
+shared_preferences_windows=/Users/vladalboiu/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.1+1/
