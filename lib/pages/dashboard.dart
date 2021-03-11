@@ -157,9 +157,11 @@ class DashboardState extends State<Dashboard>{
     return token;
   }
 
-  Future<dynamic> getLocationData(String loginToken)async{
-    print("login_token "+loginToken);
-    var mBody = {"remember_token": loginToken};
+  Future<dynamic> getLocationData(String loginToken, String entityId, String locationId)async{
+    var mBody = {
+      "remember_token": loginToken,
+      "entity_id": entityId,
+      "location_id": locationId,};
     final response = await http.post(ApiInterface.GET_LOCATION, body: mBody);
     print(response.body);
     if (response.statusCode == 200) {
@@ -408,7 +410,7 @@ class DashboardState extends State<Dashboard>{
               goToProfilePage();
               break;
             case 'Settings':
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowRestaurant()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ShowRestaurant()));
               break;
             case 'Logout':
               showLogoutDialog();
@@ -707,12 +709,14 @@ class DashboardState extends State<Dashboard>{
                     child: MaterialButton(
                         onPressed: ()async{
                           if(!isUserClockIn) {
+                            CommonMethods.showAlertDialog(context);
                             print("serverLat    "+serverLat);
                             getPreferenceData().then((value){
-                              getLocationData(value[0]).then((value){
+                              getLocationData(value[0],value[1],value[2]).then((value){
                                 getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
                                     _currentPosition.latitude,
                                     _currentPosition.longitude).then((value){
+                                      Navigator.pop(context);
                                   if (value <= 50.0) {
                                     DateTime now = DateTime.now();
                                     String timeNow = DateFormat('HH:mm').format(now);
@@ -755,7 +759,7 @@ class DashboardState extends State<Dashboard>{
                             int lateTimeInt = ctFormat.difference(nowTimeFormat).inMinutes;
                             if(lateTimeInt<0){
                               getPreferenceData().then((value){
-                                getLocationData(value[0]).then((value){
+                                getLocationData(value[0],value[1],value[2]).then((value){
                                   getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
                                       _currentPosition.latitude,
                                       _currentPosition.longitude).then((value) {

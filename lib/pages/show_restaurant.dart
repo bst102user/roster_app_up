@@ -13,18 +13,10 @@ class ShowRestaurant extends StatefulWidget {
 }
 
 class ShowRestaurantState extends State<ShowRestaurant> {
-  // GetEntity entityUser;
-  // GetLocation enttLocation;
-  // int selectedIndexForEntt = 0;
-  // int selectedIndexForLocation = 0;
-  // int mEntityId = 0;
-  // int mLocationId = 0;
-  // bool progressForEntity = true;
-  // bool progressForLocation = true;
-  String selectedEntity;
+  GetEntity selectedEntity;
   List<GetEntity> entityList;
 
-  String selectedLocation;
+  GetLocation selectedLocation;
   List<GetLocation> locationList;
   @override
   void initState() {
@@ -35,14 +27,12 @@ class ShowRestaurantState extends State<ShowRestaurant> {
             setState(() {
               entityList = entityValue;
               if(selectedEntity == null){
-                selectedEntity = entityList[0].entityId.toString();
+                selectedEntity = entityList[0];
+                savePrefValue('user_entity', selectedEntity.entityId.toString());
               }
-              getRestaurantLocations(userId, selectedEntity).then((locationValue){
+              getRestaurantLocations(userId, selectedEntity.entityId.toString()).then((locationValue){
                 setState(() {
                   locationList = locationValue;
-                  // if(selectedLocation == null){
-                  //   selectedLocation = locationList[0].locationAddress;
-                  // }
                 });
               });
             });
@@ -60,6 +50,18 @@ class ShowRestaurantState extends State<ShowRestaurant> {
     SharedPreferences mPref = await SharedPreferences.getInstance();
     String userId = mPref.getString('user_id');
     return userId;
+  }
+
+  Future<String> getEntity() async {
+    SharedPreferences mPref = await SharedPreferences.getInstance();
+    String entityStr = mPref.getString('user_entity_str');
+    return entityStr;
+  }
+
+  Future<String> getLocation() async {
+    SharedPreferences mPref = await SharedPreferences.getInstance();
+    String locationStr = mPref.getString('user_location_str');
+    return locationStr;
   }
 
   Future getRestaurantData(String userId) async {
@@ -137,7 +139,17 @@ class ShowRestaurantState extends State<ShowRestaurant> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5.0),
-                          child: Text('Select Entity'),
+                          child: FutureBuilder(
+                            future: getEntity(),
+                            builder: (context,snapshot){
+                              if(snapshot.data == null||snapshot.data == ''){
+                                return Text('Select Entity');
+                              }
+                              else{
+                                return Text('Select Entity ('+snapshot.data+')');
+                              }
+                            },
+                          ),
                         ),
                         entityList==null?Center(
                     child: Column(
@@ -167,17 +179,18 @@ class ShowRestaurantState extends State<ShowRestaurant> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 50.0,vertical: 5),
                               child: DropdownButtonHideUnderline(
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<GetEntity>(
                                   value: selectedEntity,
                                   isDense: true,
-                                  onChanged: (String newValue) {
+                                  onChanged: (GetEntity newValue) {
                                     selectedLocation = null;
                                     setState(() {
                                       selectedEntity = newValue;
-                                      savePrefValue('user_entity', selectedEntity);
+                                      savePrefValue('user_entity', selectedEntity.entityId.toString());
+                                      savePrefValue('user_entity_str', newValue.entityName);
                                     });
                                     getUserId().then((value){
-                                      getRestaurantLocations(value, selectedEntity).then((locationValue){
+                                      getRestaurantLocations(value, selectedEntity.entityId.toString()).then((locationValue){
                                         setState(() {
                                           locationList = locationValue;
                                         });
@@ -186,8 +199,8 @@ class ShowRestaurantState extends State<ShowRestaurant> {
                                     print(selectedEntity);
                                   },
                                   items: entityList.map((GetEntity map) {
-                                    return new DropdownMenuItem<String>(
-                                      value: map.entityId.toString(),
+                                    return new DropdownMenuItem<GetEntity>(
+                                      value: map,
                                       child: new Text(map.entityName,
                                           style: new TextStyle(color: Colors.black)),
                                     );
@@ -222,7 +235,17 @@ class ShowRestaurantState extends State<ShowRestaurant> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Text('Select Location'),
+                                child: FutureBuilder(
+                                  future: getLocation(),
+                                  builder: (context,snapshot){
+                                    if(snapshot.data == null||snapshot.data == ''){
+                                      return Text('Select Location');
+                                    }
+                                    else{
+                                      return Text('Select Location ('+snapshot.data+')');
+                                    }
+                                  },
+                                ),
                               ),
                               Container(
                                 decoration: BoxDecoration(
@@ -235,20 +258,21 @@ class ShowRestaurantState extends State<ShowRestaurant> {
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 50.0,vertical: 5),
                                     child: DropdownButtonHideUnderline(
-                                      child: new DropdownButton<String>(
+                                      child: new DropdownButton<GetLocation>(
                                         hint: Text('Select Location'),
                                         value: selectedLocation,
                                         isDense: true,
-                                        onChanged: (String newValue) {
+                                        onChanged: (GetLocation newValue) {
                                           setState(() {
                                             selectedLocation = newValue;
                                           });
                                           print(selectedLocation);
-                                          savePrefValue('user_location', selectedLocation);
+                                          savePrefValue('user_location', selectedLocation.locationId.toString());
+                                          savePrefValue('user_location_str', selectedLocation.locationAddress);
                                         },
                                         items: locationList.map((GetLocation map) {
-                                          return new DropdownMenuItem<String>(
-                                            value: map.locationId.toString(),
+                                          return new DropdownMenuItem<GetLocation>(
+                                            value: map,
                                             child: new Text(map.locationAddress,
                                                 style: new TextStyle(color: Colors.black)),
                                           );
