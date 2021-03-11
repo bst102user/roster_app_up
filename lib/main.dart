@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:roster_app/pages/dashboard.dart';
 import 'package:roster_app/pages/login.dart';
+import 'package:roster_app/pages/show_restaurant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -92,12 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
     Timer(Duration(seconds: 3), () async {
       mPref = await SharedPreferences.getInstance();
       bool checkLoginStatus = mPref.get("login_status");
+      String isLocationSaved = mPref.getString('user_location');
       if (checkLoginStatus == null) {
         checkLoginStatus = false;
       }
       if (checkLoginStatus) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
+        if(isLocationSaved == '' || isLocationSaved==null) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ShowRestaurant()));
+        }
+        else{
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (BuildContext context) => Dashboard()));
+        }
       } else {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (BuildContext context) => Login()));

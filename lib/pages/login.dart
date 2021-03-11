@@ -11,6 +11,7 @@ import 'package:roster_app/common/common_methods.dart';
 import 'package:roster_app/models/LoginModel.dart';
 import 'package:roster_app/models/location_model.dart';
 import 'package:roster_app/pages/dashboard.dart';
+import 'package:roster_app/pages/show_restaurant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 // import 'package:device_id/device_id.dart';
@@ -25,15 +26,11 @@ class LoginState extends State<Login> {
   TextEditingController passController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final Location location = Location();
-  // String _platformVersion = 'Unknown';
-  // String _imei = 'Unknown';
-  // String _serial = 'Unknown';
-  // String _androidID = 'Unknown';
-  // Map _idMap = Map();
+  bool _obscureText = true;
 
   goToMainPage() {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => Dashboard()),
+        MaterialPageRoute(builder: (context) => ShowRestaurant()),
         (Route<dynamic> route) => false);
   }
 
@@ -48,46 +45,6 @@ class LoginState extends State<Login> {
     return fcmTokenStr;
   }
 
-  // Future<void> initPlatformState() async {
-  // Future<void> initPlatformState() async {
-  //   String platformVersion;
-  //   String imei;
-  //   String serial;
-  //   String androidID;
-  //   Map idMap;
-  //
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     platformVersion = await AndroidMultipleIdentifier.platformVersion;
-  //   } on PlatformException {
-  //     platformVersion = 'Failed to get platform version.';
-  //   }
-  //
-  //   bool requestResponse = await AndroidMultipleIdentifier.requestPermission();
-  //   print("NEVER ASK AGAIN SET TO: ${AndroidMultipleIdentifier.neverAskAgain}");
-  //
-  //   try {
-  //     // imei = await AndroidMultipleIdentifier.imeiCode;
-  //     // serial = await AndroidMultipleIdentifier.serialCode;
-  //     // androidID = await AndroidMultipleIdentifier.androidID;
-  //
-  //     idMap = await AndroidMultipleIdentifier.idMap;
-  //   } catch (e) {
-  //     idMap = Map();
-  //     idMap["imei"] = 'Failed to get IMEI.';
-  //     idMap["serial"] = 'Failed to get Serial Code.';
-  //     idMap["androidId"] = 'Failed to get Android id.';
-  //   }
-  //   if (!mounted) return;
-  //
-  //   setState(() {
-  //     _platformVersion = platformVersion;
-  //     _idMap = idMap;
-  //     _imei = _idMap["imei"];
-  //     _serial = _idMap["serial"];
-  //     _androidID = _idMap["androidId"];
-  //   });
-  // }
 
   @override
   void initState() {
@@ -95,8 +52,11 @@ class LoginState extends State<Login> {
     // initPlatformState();
     getFcmToken();
   }
-
-
+  void _togglePasswordStatus() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   loginUser(String username, String password) async {
     if (_formKey.currentState.validate()) {
@@ -126,7 +86,6 @@ class LoginState extends State<Login> {
                 } else {
                   LoginModel loginModal = loginModelFromJson(response.body);
                   SharedPreferences mPref = await SharedPreferences.getInstance();
-                  mPref.setBool("login_status", true);
                   CommonMethods.savePrefStr("user_token", loginModal.data);
                   mPref.setString(
                       "email_pref", loginModal.userDetails.userLoginEmail);
@@ -148,7 +107,7 @@ class LoginState extends State<Login> {
               } else {
                 Navigator.of(context).pop();
                 CommonMethods.showToast(
-                    'Opps! You have entered invalid credentials');
+                    'Oops! You have entered invalid credentials');
                 return null;
               }
             });
@@ -198,7 +157,7 @@ class LoginState extends State<Login> {
                           padding: const EdgeInsets.only(top: 10.0),
                           child: TextFormField(
                             controller: passController,
-                            obscureText: true,
+                            obscureText: _obscureText,
                             validator: (val) {
                               return val.isEmpty
                                   ? 'Please enter password'
@@ -206,6 +165,11 @@ class LoginState extends State<Login> {
                             },
                             decoration: InputDecoration(
                               labelText: 'Password',
+                              suffixIcon:  IconButton(
+                                icon:Icon(_obscureText ? Icons.visibility_off:Icons.visibility,),
+                                onPressed: _togglePasswordStatus,
+                                color: app_theme_dark_color,
+                              ),
                               border: new OutlineInputBorder(
                                 borderRadius: const BorderRadius.all(
                                   const Radius.circular(10.0),

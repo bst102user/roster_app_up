@@ -14,10 +14,12 @@ import 'package:roster_app/common/api_interface.dart';
 import 'package:roster_app/common/common_methods.dart';
 import 'package:roster_app/models/location_model.dart';
 import 'package:roster_app/models/notification_model.dart';
+import 'package:roster_app/models/restaurant_model.dart';
 import 'package:roster_app/models/scheduler_model.dart';
 import 'package:roster_app/pages/login.dart';
 import 'package:roster_app/pages/notification_page.dart';
 import 'package:roster_app/pages/profile_page.dart';
+import 'package:roster_app/pages/show_restaurant.dart';
 // import 'package:serial_number/serial_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -75,6 +77,27 @@ class DashboardState extends State<Dashboard>{
     });
   }
 
+  Future<dynamic> getRestaurantData(userId)async{
+    final response = await http.get(ApiInterface.ALL_RESTAURANT+userId);
+    print(response.body);
+    if (response.statusCode == 200) {
+      // Navigator.pop(context);
+      final String restrntResponse = response.body;
+      print(response.body);
+      RestaurantModel restaurantModel = restaurantModelFromJson(restrntResponse);
+      List<Entity> restrntList = restaurantModel.entity;
+      if(restrntList.length!=0){
+        return restrntList;
+      }
+      else{
+        return 'no_entity';
+      }
+    }
+    else{
+      return 'server_error';
+    }
+  }
+
   Future getLoginToken()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userToken = prefs.getString('user_token');
@@ -115,11 +138,16 @@ class DashboardState extends State<Dashboard>{
     return formattedDate2;
   }
 
-  Future<String> getToken() async{
+  Future<List<String>> getPreferenceData() async{
+    List<String> saveDataList = [];
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('user_token');
-    // getLocationData(token);
-    return token;
+    String entityId = preferences.getString('user_entity');
+    String locationId = preferences.getString('user_location');
+    saveDataList.add(token);
+    saveDataList.add(entityId);
+    saveDataList.add(locationId);
+    return saveDataList;
   }
 
   Future<String> getAttandenceId() async{
@@ -179,7 +207,7 @@ class DashboardState extends State<Dashboard>{
       CommonMethods.getId(context).then((deviceId)async{
         Map sendMap = {
           'email':emailStr,
-          'device_id':deviceId,
+          'device_id':deviceId,//0283861a22dc701f
         };
         final response = await http.post(ApiInterface.DEVICE_VALIDATION, body: sendMap);
         // if (response.statusCode == 200) {
@@ -283,11 +311,21 @@ class DashboardState extends State<Dashboard>{
     return tomorrowDate;
   }
 
-  Future<dynamic>getCurrentWeekSchedular(String startDate, String endDate,String token)async{
+  String getToday(){
+    var now = new DateTime.now();
+    final tomorrow = DateTime(now.year, now.month, now.day);
+    var formatter = new DateFormat('dd-MM-yyyy');
+    String tomorrowDate = formatter.format(tomorrow);
+    return tomorrowDate;
+  }
+
+  Future<dynamic>getCurrentWeekSchedular(String startDate, String endDate,String token, String entityID, String locationId)async{
     var mBody = {
       "remember_token": token,
       "start_date": startDate,
-      "last_date": endDate
+      "last_date": endDate,
+      "entityID": entityID,
+      "locationID": locationId
     };
     final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
     print(response.body);
@@ -369,6 +407,9 @@ class DashboardState extends State<Dashboard>{
             case 'Profile':
               goToProfilePage();
               break;
+            case 'Settings':
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowRestaurant()));
+              break;
             case 'Logout':
               showLogoutDialog();
               break;
@@ -440,6 +481,8 @@ class DashboardState extends State<Dashboard>{
       onPressed: () async {
         SharedPreferences mPref = await SharedPreferences.getInstance();
         mPref.setBool("login_status", false);
+        mPref.setString("user_location", '');
+        mPref.setString("user_entity", '');
         Navigator.pop(context);
         Navigator.pushAndRemoveUntil(
             context,
@@ -544,12 +587,12 @@ class DashboardState extends State<Dashboard>{
     var iSODetails = new IOSNotificationDetails();
     var generalNotificationDetails =
     new NotificationDetails(androidDetails, iSODetails);
-    var time = Time(00, 02, 00);
-    bool isScheduleTomorrow = false;
+    var time = Time(03, 05, 30);
+    bool isScheduleTomorrow1 = false;
 
-    getToken().then((value)async{
+    getPreferenceData().then((value)async{
       var mBody = {
-        "remember_token": value,
+        "remember_token": value[0],
         "start_date": anyDayOfWeek(0),
         "last_date": anyDayOfWeek(6),
       };
@@ -563,7 +606,7 @@ class DashboardState extends State<Dashboard>{
           SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
           List<Datum> userSchedule = schedulerModel.data;
           for (int x = 0; x < userSchedule.length; x++) {
-            String getTomorrowDate = getTomorrow();
+            String getTomorrowDate = getToday();
             if (getTomorrowDate == userSchedule[x].scheduleDate) {
               fltrNotification.showDailyAtTime(
                   1, 'Roster', 'You have Roster today ', time,
@@ -573,12 +616,6 @@ class DashboardState extends State<Dashboard>{
         }
       }
     });
-print('isScheduleTomorrow'+isScheduleTomorrow.toString());
-    if(isScheduleTomorrow) {
-      fltrNotification.showDailyAtTime(
-          1, 'Roster', 'You have Roster today ', time,
-          generalNotificationDetails, payload: 'Test Payload');
-    }
   }
 
   Widget customPage(int pageNumber, Datum userSchedule){
@@ -664,14 +701,15 @@ print('isScheduleTomorrow'+isScheduleTomorrow.toString());
                     ),
                   ),
 
-                  (pageNumber==getNumberOfDayOfWeek())?Padding(
+                  (pageNumber==
+                      getNumberOfDayOfWeek())?Padding(
                     padding: const EdgeInsets.only(top: 100.0,left: 50.0, right: 50.0),
                     child: MaterialButton(
                         onPressed: ()async{
                           if(!isUserClockIn) {
                             print("serverLat    "+serverLat);
-                            getToken().then((value){
-                              getLocationData(value).then((value){
+                            getPreferenceData().then((value){
+                              getLocationData(value[0]).then((value){
                                 getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
                                     _currentPosition.latitude,
                                     _currentPosition.longitude).then((value){
@@ -716,8 +754,8 @@ print('isScheduleTomorrow'+isScheduleTomorrow.toString());
                             print("${ctFormat.difference(nowTimeFormat)}");
                             int lateTimeInt = ctFormat.difference(nowTimeFormat).inMinutes;
                             if(lateTimeInt<0){
-                              getToken().then((value){
-                                getLocationData(value).then((value){
+                              getPreferenceData().then((value){
+                                getLocationData(value[0]).then((value){
                                   getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
                                       _currentPosition.latitude,
                                       _currentPosition.longitude).then((value) {
@@ -893,14 +931,15 @@ print('isScheduleTomorrow'+isScheduleTomorrow.toString());
 
   Widget thisWeekData(){
     return FutureBuilder(
-      future: getToken(),
+      future: getPreferenceData(),
       builder: (context,snapshot1){
         if(snapshot1.data == null){
           return Text('');
         }
         else{
           return FutureBuilder(
-            future: getCurrentWeekSchedular(anyDayOfWeek(0),anyDayOfWeek(6),snapshot1.data),
+            future: getCurrentWeekSchedular(anyDayOfWeek(0),anyDayOfWeek(6),snapshot1.data[0],
+            snapshot1.data[1],snapshot1.data[2]),
             builder: (context, snapshot){
               if(snapshot.data == null){
                 return Center(
