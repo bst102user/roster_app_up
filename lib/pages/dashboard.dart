@@ -589,14 +589,15 @@ class DashboardState extends State<Dashboard>{
     var iSODetails = new IOSNotificationDetails();
     var generalNotificationDetails =
     new NotificationDetails(androidDetails, iSODetails);
-    var time = Time(03, 05, 30);
-    bool isScheduleTomorrow1 = false;
+    var time = Time(07, 05, 30);
 
     getPreferenceData().then((value)async{
       var mBody = {
         "remember_token": value[0],
         "start_date": anyDayOfWeek(0),
         "last_date": anyDayOfWeek(6),
+        "entityID": value[1],
+        "locationID": value[2],
       };
       final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
       if (response.statusCode == 200) {
@@ -725,18 +726,23 @@ class DashboardState extends State<Dashboard>{
                                     var nowTimeFormat = format.parse(timeNow);
                                     print("${ctFormat.difference(nowTimeFormat)}");
                                     int lateTimeInt = ctFormat.difference(nowTimeFormat).inMinutes;
-
-                                    var ctFormatOut = format.parse(userSchedule.scheduleEndTime);
-                                    var nowTimeFormatOut = format.parse(timeNow);
-                                    print("${ctFormat.difference(nowTimeFormat)}");
-                                    int timeIntOut = ctFormatOut.difference(nowTimeFormatOut).inMinutes;
                                     String beforeFlag;
-                                    if(lateTimeInt>0 || timeIntOut<0){
+                                    if(userSchedule.scheduleEndTime == null){
                                       beforeFlag = '1';
                                     }
                                     else{
-                                      beforeFlag = '0';
+                                      var ctFormatOut = format.parse(userSchedule.scheduleEndTime);
+                                      var nowTimeFormatOut = format.parse(timeNow);
+                                      print("${ctFormat.difference(nowTimeFormat)}");
+                                      int timeIntOut = ctFormatOut.difference(nowTimeFormatOut).inMinutes;
+                                      if(lateTimeInt>0 || timeIntOut<0){
+                                        beforeFlag = '1';
+                                      }
+                                      else{
+                                        beforeFlag = '0';
+                                      }
                                     }
+
                                     saveClockInTime(
                                         userSchedule.rosterId.toString(),
                                         userSchedule.rosterGroupId
@@ -753,10 +759,15 @@ class DashboardState extends State<Dashboard>{
                             DateTime now = DateTime.now();
                             String timeNow = DateFormat('HH:mm').format(now);
                             var format = DateFormat("HH:mm");
-                            var ctFormat = format.parse(userSchedule.scheduleEndTime);
-                            var nowTimeFormat = format.parse(timeNow);
-                            print("${ctFormat.difference(nowTimeFormat)}");
-                            int lateTimeInt = ctFormat.difference(nowTimeFormat).inMinutes;
+                            int lateTimeInt;
+                            if(userSchedule.scheduleEndTime != null){
+                              var ctFormat = format.parse(userSchedule.scheduleEndTime);
+                              var nowTimeFormat = format.parse(timeNow);
+                              lateTimeInt = ctFormat.difference(nowTimeFormat).inMinutes;
+                            }
+                            else{
+                              lateTimeInt = -1;
+                            }
                             if(lateTimeInt<0){
                               getPreferenceData().then((value){
                                 getLocationData(value[0],value[1],value[2]).then((value){

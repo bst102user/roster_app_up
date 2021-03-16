@@ -31,17 +31,25 @@ class NextWeekPage extends StatelessWidget{
     return dayList;
   }
 
-  Future<String> getLoginToken()async{
+  Future<List<String>> getLoginToken()async{
+    List<String> prefDataList = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userToken = prefs.getString('user_token');
-    return userToken;
+    String userEntity = prefs.getString('user_entity');
+    String userLocation = prefs.getString('user_location');
+    prefDataList.add(userToken);
+    prefDataList.add(userEntity);
+    prefDataList.add(userLocation);
+    return prefDataList;
   }
 
-  Future<dynamic>getCurrentWeekSchedular(String startDate, String endDate,String loginToken)async{
+  Future<dynamic>getCurrentWeekSchedular(String startDate, String endDate,String loginToken,String entityId, locationId)async{
     var mBody = {
       "remember_token": loginToken,
       "start_date": startDate,
-      "last_date": endDate
+      "last_date": endDate,
+      "entityID":entityId,
+      "locationID":locationId
     };
     final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
     print(response.body);
@@ -212,7 +220,7 @@ class NextWeekPage extends StatelessWidget{
         }
         else{
           return FutureBuilder(
-            future: getCurrentWeekSchedular(anyDayOfWeek(7),anyDayOfWeek(13),snapshot1.data),
+            future: getCurrentWeekSchedular(anyDayOfWeek(7),anyDayOfWeek(13),snapshot1.data[0],snapshot1.data[1],snapshot1.data[2]),
             builder: (context, snapshot){
               if(snapshot.data == null){
                 return Center(

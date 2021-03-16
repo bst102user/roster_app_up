@@ -18,6 +18,7 @@ class ShowRestaurantState extends State<ShowRestaurant> {
 
   GetLocation selectedLocation;
   List<GetLocation> locationList;
+  bool isEntityOne = false;
   @override
   void initState() {
     super.initState();
@@ -72,6 +73,9 @@ class ShowRestaurantState extends State<ShowRestaurant> {
       RestaurantModel restaurantModel = restaurantModelFromJson(
           restrntResponse);
       List<Entity> restrntList = restaurantModel.entity;
+      if(restrntList.length == 1){
+        isEntityOne = true;
+      }
       if (restrntList.length != 0) {
         List<GetEntity> gtEnttList = [];
         for(int i=0;i<restrntList.length;i++){
@@ -93,10 +97,22 @@ class ShowRestaurantState extends State<ShowRestaurant> {
     CommonMethods.showAlertDialog(context);
     final response = await http.get(ApiInterface.ALL_REST_LOCATION + userId+'/'+entityId);
     if (response.statusCode == 200) {
+      print(response.body);
       Navigator.pop(context);
       final String restrntLocationResponse = response.body;
       RestrntLocationModel locationModel = restrntLocationModelFromJson(restrntLocationResponse);
       List<Location> allLocations = locationModel.location;
+      if(isEntityOne){
+        if(allLocations.length == 1){
+          SharedPreferences mPref = await SharedPreferences.getInstance();
+          GetLocation getEntity = allLocations[0].getLocation[0];
+          mPref.setBool("login_status", true);
+          savePrefValue('user_entity', getEntity.entityId.toString());
+          savePrefValue('user_location', getEntity.locationId.toString());
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
+        }
+      }
       if (allLocations.length != 0) {
         List<GetLocation> gtLocList = [];
         for(int i=0;i<allLocations.length;i++){
