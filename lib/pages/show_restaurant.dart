@@ -24,6 +24,7 @@ class ShowRestaurantState extends State<ShowRestaurant> {
     super.initState();
     getUserId().then((userId){
       getRestaurantData(userId).then((entityValue){
+        // print('entityValue '+entityValue);
           if(entityValue != null){
             setState(() {
               entityList = entityValue;
@@ -67,6 +68,7 @@ class ShowRestaurantState extends State<ShowRestaurant> {
 
   Future getRestaurantData(String userId) async {
     final response = await http.get(ApiInterface.ALL_RESTAURANT + userId);
+    print('response.statusCode '+ApiInterface.ALL_RESTAURANT + userId);
     if (response.statusCode == 200) {
       final String restrntResponse = response.body;
       print(response.body);
@@ -96,6 +98,8 @@ class ShowRestaurantState extends State<ShowRestaurant> {
   Future<dynamic> getRestaurantLocations(String userId, String entityId) async {
     CommonMethods.showAlertDialog(context);
     final response = await http.get(ApiInterface.ALL_REST_LOCATION + userId+'/'+entityId);
+    print('response.statusCode '+ApiInterface.ALL_RESTAURANT + userId);
+    print('response.statusCode '+response.statusCode.toString());
     if (response.statusCode == 200) {
       print(response.body);
       Navigator.pop(context);

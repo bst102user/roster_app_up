@@ -3,24 +3,18 @@ import 'package:clean_swiper/clean_swiper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
-// import 'package:get_mac/get_mac.dart';
-// import 'package:imei_plugin/imei_plugin.dart';
 import 'package:intl/intl.dart';
-// import 'package:pluginimei/pluginimei.dart';
 import 'package:roster_app/common/api_interface.dart';
 import 'package:roster_app/common/common_methods.dart';
 import 'package:roster_app/models/location_model.dart';
-import 'package:roster_app/models/notification_model.dart';
 import 'package:roster_app/models/restaurant_model.dart';
 import 'package:roster_app/models/scheduler_model.dart';
 import 'package:roster_app/pages/login.dart';
 import 'package:roster_app/pages/notification_page.dart';
 import 'package:roster_app/pages/profile_page.dart';
 import 'package:roster_app/pages/show_restaurant.dart';
-// import 'package:serial_number/serial_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'next_week_page.dart';
@@ -60,6 +54,8 @@ class DashboardState extends State<Dashboard>{
   String isWorkLocation='0';
   FlutterLocalNotificationsPlugin fltrNotification;
   bool isScheduleTomorrow = false;
+  String rosterIdCurrentDay;
+
 
   getPrefData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -271,13 +267,14 @@ class DashboardState extends State<Dashboard>{
   }
 
 
-  saveClockOutTime(String clockOutTime,locationFlag)async{
+  saveClockOutTime(String clockOutTime,locationFlag, String rosterId)async{
     getAttandenceId().then((value)async{
       CommonMethods.showAlertDialog(context);
       var mBody = {
         "attendance_id": value,
         "clock_out_time": clockOutTime,
         "remember_token": mToken,
+        "roster_id": rosterId,
         "location": locationFlag,
       };
       print("locationFlag   "+mBody.toString());
@@ -385,6 +382,7 @@ class DashboardState extends State<Dashboard>{
               mtFirstDateInt++;
             }
           }
+          rosterIdCurrentDay = testSchedule[getNumberOfDayOfWeek()].rosterId.toString();
           if (userSchedule.length == 0) {
             return 'data_not_found';
           }
@@ -514,7 +512,6 @@ class DashboardState extends State<Dashboard>{
 
   int getNumberOfDayOfWeek(){
     DateTime date = DateTime.now();
-    // print("weekday is ${date.weekday}");
     return date.weekday-1;
   }
 
@@ -709,7 +706,7 @@ class DashboardState extends State<Dashboard>{
                     padding: const EdgeInsets.only(top: 100.0,left: 50.0, right: 50.0),
                     child: MaterialButton(
                         onPressed: ()async{
-                          if(!isUserClockIn) {
+                          if(userSchedule.clockStatus == 0) {
                             CommonMethods.showAlertDialog(context);
                             print("serverLat    "+serverLat);
                             getPreferenceData().then((value){
@@ -776,7 +773,7 @@ class DashboardState extends State<Dashboard>{
                                       _currentPosition.longitude).then((value) {
                                         print('value'+value.toString());
                                         if(value <= 50.0){
-                                          saveClockOutTime(CommonMethods.getCurrentTime(),'0');
+                                          saveClockOutTime(CommonMethods.getCurrentTime(),'0',userSchedule.rosterId.toString());
                                         }
                                         else{
                                           _selectTime(context);
@@ -786,12 +783,12 @@ class DashboardState extends State<Dashboard>{
                               });
                             }
                             else {
-                              saveClockOutTime(CommonMethods.getCurrentTime(),isWorkLocation);
+                              saveClockOutTime(CommonMethods.getCurrentTime(),isWorkLocation,userSchedule.rosterId.toString());
                             }
                           }
                         },
-                        color: !isUserClockIn?Colors.green:Colors.redAccent,
-                        child: !isUserClockIn?Row(
+                        color: (userSchedule.clockStatus == 0)?Colors.green:Colors.redAccent,
+                        child: (userSchedule.clockStatus == 0)?Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
@@ -1018,7 +1015,7 @@ class DashboardState extends State<Dashboard>{
         _minute = selectedTime.minute.toString();
         _lateClockOutTime = _hour + ':' + _minute+':'+'00';
         String sendClockOutTime = CommonMethods.getCurrentOnlyDate()+' '+_lateClockOutTime;
-        saveClockOutTime(sendClockOutTime,'1');
+        saveClockOutTime(sendClockOutTime,'1',rosterIdCurrentDay);
       });
   }
 
