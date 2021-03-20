@@ -733,7 +733,7 @@ class DashboardState extends State<Dashboard>{
                                     _currentPosition.latitude,
                                     _currentPosition.longitude).then((value){
                                       Navigator.pop(context);
-                                  if (value >= 50.0) {
+                                  if (value <= 50.0) {
                                     DateTime now = DateTime.now();
                                     String timeNow = DateFormat('HH:mm').format(now);
                                     var format = DateFormat("HH:mm");
