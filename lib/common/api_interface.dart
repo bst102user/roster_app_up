@@ -13,6 +13,4 @@ class ApiInterface{
   static String DEVICE_VALIDATION = BASE_URL+URL_PREFIX+'public/api/checkDevice';
   static String ALL_RESTAURANT = BASE_URL+URL_PREFIX+'public/api/getEntity/';
   static String ALL_REST_LOCATION = BASE_URL+URL_PREFIX+'public/api/getLocation/';
-
-//  https://eroster.com.au/test/public/api/checkDevicecd  https://eroster.com.au/test/public/api/getLocation/56/1
 }

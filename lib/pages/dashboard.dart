@@ -55,6 +55,8 @@ class DashboardState extends State<Dashboard>{
   FlutterLocalNotificationsPlugin fltrNotification;
   bool isScheduleTomorrow = false;
   String rosterIdCurrentDay;
+  int clockStatus;
+  String attendanceIdInt = '0';
 
 
   getPrefData() async {
@@ -230,7 +232,7 @@ class DashboardState extends State<Dashboard>{
     Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
   }
 
-  saveClockInTime(String rosterId,String userGrpId,String beforeFlag)async{
+  saveClockInTime(String rosterId,String userGrpId,String beforeFlag,String entityId, String locationId)async{
     CommonMethods.showAlertDialog(context);
     var mBody = {
       "user_id":userId,
@@ -239,8 +241,11 @@ class DashboardState extends State<Dashboard>{
       "attendance_date":CommonMethods.getCurrentOnlyDate(),
       "check_in_time": CommonMethods.getCurrentTime(),
       "remember_token":mToken,
-      "before_time":beforeFlag
+      "before_time":beforeFlag,
+      "entity_id":entityId,
+      "location_id":locationId
     };
+    print('mBody: '+mBody.toString());
     final response = await http.post(ApiInterface.CLOCK_IN, body: mBody);
     print(response.body);
     if (response.statusCode == 200) {
@@ -267,39 +272,42 @@ class DashboardState extends State<Dashboard>{
   }
 
 
-  saveClockOutTime(String clockOutTime,locationFlag, String rosterId)async{
-    getAttandenceId().then((value)async{
-      CommonMethods.showAlertDialog(context);
-      var mBody = {
-        "attendance_id": value,
-        "clock_out_time": clockOutTime,
-        "remember_token": mToken,
-        "roster_id": rosterId,
-        "location": locationFlag,
-      };
-      print("locationFlag   "+mBody.toString());
-      final response = await http.post(ApiInterface.CLOCK_OUT, body: mBody);
+  saveClockOutTime(String clockOutTime,locationFlag, String rosterId,)async{
+    SharedPreferences mPref = await SharedPreferences.getInstance();
+    String entityId = mPref.getString('user_entity');
+    String locationId = mPref.getString('user_location');
+    CommonMethods.showAlertDialog(context);
+    var mBody = {
+      "attendance_id": attendanceIdInt,
+      "clock_out_time": clockOutTime,
+      "remember_token": mToken,
+      "roster_id": rosterId,
+      "location": locationFlag,
+      "entity_id": entityId,
+      "location_id": locationId,
+    };
+    print("locationFlag   "+mBody.toString());
+    final response = await http.post(ApiInterface.CLOCK_OUT, body: mBody);
+    print(response.body);
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+      final String loginResponse = response.body;
       print(response.body);
-      if (response.statusCode == 200) {
-        Navigator.pop(context);
-        final String loginResponse = response.body;
-        print(response.body);
-        Map<String, dynamic> d = json.decode(loginResponse.trim());
-        var status = d["success"];
-        if (status == 'success') {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.setBool('is_clock_in', false);
-          CommonMethods.showToast('Successfully clocked out');
-          setState(() {
-            isUserClockIn = false;
-          });
-          (context as Element).reassemble();
-        } else {
-          CommonMethods.showToast('Something went wrong');
-        }
-        print(loginResponse);
+      Map<String, dynamic> d = json.decode(loginResponse.trim());
+      var status = d["success"];
+      if (status == 'success') {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setBool('is_clock_in', false);
+        CommonMethods.showToast('Successfully clocked out');
+        setState(() {
+          isUserClockIn = false;
+        });
+        (context as Element).reassemble();
+      } else {
+        CommonMethods.showToast('Something went wrong');
       }
-    });
+      print(loginResponse);
+    }
   }
 
   String getTomorrow(){
@@ -333,6 +341,17 @@ class DashboardState extends State<Dashboard>{
       print(response.body);
       Map<String, dynamic> d = json.decode(loginResponse.trim());
       var status = d["success"];
+      clockStatus = d["clock_status"];
+      attendanceIdInt = d["attendanceID"];
+
+
+
+
+
+      if(attendanceIdInt == null){
+        attendanceIdInt = '0';
+      }
+      // var status = d["success"];
       if (status != 'success') {
         CommonMethods.showToast('No Scheduler found');
       } else {
@@ -706,16 +725,15 @@ class DashboardState extends State<Dashboard>{
                     padding: const EdgeInsets.only(top: 100.0,left: 50.0, right: 50.0),
                     child: MaterialButton(
                         onPressed: ()async{
-                          if(userSchedule.clockStatus == 0) {
+                          if(clockStatus == 0) {
                             CommonMethods.showAlertDialog(context);
-                            print("serverLat    "+serverLat);
-                            getPreferenceData().then((value){
-                              getLocationData(value[0],value[1],value[2]).then((value){
+                            getPreferenceData().then((sharedValue){
+                              getLocationData(sharedValue[0],sharedValue[1],sharedValue[2]).then((value){
                                 getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
                                     _currentPosition.latitude,
                                     _currentPosition.longitude).then((value){
                                       Navigator.pop(context);
-                                  if (value <= 50.0) {
+                                  if (value >= 50.0) {
                                     DateTime now = DateTime.now();
                                     String timeNow = DateFormat('HH:mm').format(now);
                                     var format = DateFormat("HH:mm");
@@ -743,7 +761,7 @@ class DashboardState extends State<Dashboard>{
                                     saveClockInTime(
                                         userSchedule.rosterId.toString(),
                                         userSchedule.rosterGroupId
-                                            .toString(),beforeFlag);
+                                            .toString(),beforeFlag,sharedValue[1],sharedValue[2]);
                                   }
                                   else {
                                     CommonMethods.showToast('You are not at the location');
@@ -766,8 +784,8 @@ class DashboardState extends State<Dashboard>{
                               lateTimeInt = -1;
                             }
                             if(lateTimeInt<0){
-                              getPreferenceData().then((value){
-                                getLocationData(value[0],value[1],value[2]).then((value){
+                              getPreferenceData().then((sharedValue){
+                                getLocationData(sharedValue[0],sharedValue[1],sharedValue[2]).then((value){
                                   getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
                                       _currentPosition.latitude,
                                       _currentPosition.longitude).then((value) {
@@ -787,8 +805,8 @@ class DashboardState extends State<Dashboard>{
                             }
                           }
                         },
-                        color: (userSchedule.clockStatus == 0)?Colors.green:Colors.redAccent,
-                        child: (userSchedule.clockStatus == 0)?Row(
+                        color: (clockStatus == 0)?Colors.green:Colors.redAccent,
+                        child: (clockStatus == 0)?Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(

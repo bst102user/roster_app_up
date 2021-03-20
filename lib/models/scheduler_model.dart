@@ -47,7 +47,6 @@ class Datum {
     this.rosterDate,
     this.rosterEndDate,
     this.rosterStatus,
-    this.clockStatus,
   });
 
   int scheduleId;
@@ -67,7 +66,6 @@ class Datum {
   DateTime rosterDate;
   DateTime rosterEndDate;
   String rosterStatus;
-  int clockStatus;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     scheduleId: json["ScheduleID"],
@@ -87,7 +85,6 @@ class Datum {
     rosterDate: DateTime.parse(json["RosterDate"]),
     rosterEndDate: DateTime.parse(json["RosterEndDate"]),
     rosterStatus: json["RosterStatus"],
-    clockStatus: json["clock_status"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -108,6 +105,5 @@ class Datum {
     "RosterDate": "${rosterDate.year.toString().padLeft(4, '0')}-${rosterDate.month.toString().padLeft(2, '0')}-${rosterDate.day.toString().padLeft(2, '0')}",
     "RosterEndDate": "${rosterEndDate.year.toString().padLeft(4, '0')}-${rosterEndDate.month.toString().padLeft(2, '0')}-${rosterEndDate.day.toString().padLeft(2, '0')}",
     "RosterStatus": rosterStatus,
-    "clock_status": clockStatus,
   };
 }
