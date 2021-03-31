@@ -23,7 +23,7 @@ class CommonMethods{
     return formattedDate;
   }
 
-  static String   getCurrentOnlyDate(){
+  static String  getCurrentOnlyDate(){
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -123,6 +123,18 @@ class CommonMethods{
       AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.androidId; // unique ID on Android
     }
+  }
+
+  static String getCurrentMonth(){
+    var now = new DateTime.now();
+    var formatter = new DateFormat('MM');
+    return formatter.format(now);
+  }
+
+  static String getCurrentYear(){
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy');
+    return formatter.format(now);
   }
 
 }

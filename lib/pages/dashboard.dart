@@ -343,11 +343,6 @@ class DashboardState extends State<Dashboard>{
       var status = d["success"];
       clockStatus = d["clock_status"];
       attendanceIdInt = d["attendanceID"];
-
-
-
-
-
       if(attendanceIdInt == null){
         attendanceIdInt = '0';
       }
@@ -382,10 +377,31 @@ class DashboardState extends State<Dashboard>{
               shouldLen--;
             }
             else {
-              int serverDate = int.parse(
-                  userSchedule[i].scheduleDate.split('-')[0]);
-              if (mtFirstDateInt == 31) {
-                mtFirstDateInt = 1;
+              int serverDate = int.parse(userSchedule[i].scheduleDate.split('-')[0]);
+              String currentMonth = CommonMethods.getCurrentMonth();
+              String currentYear = CommonMethods.getCurrentYear();
+              int currentYearInt = int.parse(currentYear);
+              if(currentMonth == '01'||currentMonth == '03'||currentMonth == '05'||currentMonth == '07'||currentMonth == '08'||currentMonth == '10'||currentMonth == '12'){
+                if (mtFirstDateInt == 32) {
+                  mtFirstDateInt = 1;
+                }
+              }
+              else if(currentMonth == '04'||currentMonth == '06'||currentMonth == '09'||currentMonth == '11'){
+                if (mtFirstDateInt == 31) {
+                  mtFirstDateInt = 1;
+                }
+              }
+              else{
+                if (currentYearInt/4==0) {
+                  if(mtFirstDateInt == 29) {
+                    mtFirstDateInt = 1;
+                  }
+                }
+                else{
+                  if(mtFirstDateInt == 28) {
+                    mtFirstDateInt = 1;
+                  }
+                }
               }
               if (mtFirstDateInt != serverDate) {
                 testSchedule.add(new Datum(
@@ -565,7 +581,6 @@ class DashboardState extends State<Dashboard>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    // initPlatformState();
     bodyWidget = mBodyWidget();
     _getCurrentLocation();
     getPrefData();
