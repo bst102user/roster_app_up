@@ -378,7 +378,7 @@ class DashboardState extends State<Dashboard>{
             }
             else {
               int serverDate = int.parse(userSchedule[i].scheduleDate.split('-')[0]);
-              String currentMonth = CommonMethods.getCurrentMonth();
+              String currentMonth = userSchedule[i].scheduleDate.split('-')[1];
               String currentYear = CommonMethods.getCurrentYear();
               int currentYearInt = int.parse(currentYear);
               if(currentMonth == '01'||currentMonth == '03'||currentMonth == '05'||currentMonth == '07'||currentMonth == '08'||currentMonth == '10'||currentMonth == '12'){
@@ -387,7 +387,7 @@ class DashboardState extends State<Dashboard>{
                 }
               }
               else if(currentMonth == '04'||currentMonth == '06'||currentMonth == '09'||currentMonth == '11'){
-                if (mtFirstDateInt == 31) {
+                if (mtFirstDateInt == 32) {
                   mtFirstDateInt = 1;
                 }
               }
@@ -735,7 +735,7 @@ class DashboardState extends State<Dashboard>{
                     ),
                   ),
 
-                  (pageNumber==
+                  (pageNumber ==
                       getNumberOfDayOfWeek())?Padding(
                     padding: const EdgeInsets.only(top: 100.0,left: 50.0, right: 50.0),
                     child: MaterialButton(
