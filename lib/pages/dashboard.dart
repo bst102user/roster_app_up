@@ -377,7 +377,7 @@ class DashboardState extends State<Dashboard>{
               shouldLen--;
             }
             else {
-              int serverDate = int.parse(userSchedule[i].scheduleDate.split('-')[0]);
+              int serverDate = int.parse(userSchedule[i].scheduleDate.split('-')[2]);
               String currentMonth = userSchedule[i].scheduleDate.split('-')[1];
               String currentYear = CommonMethods.getCurrentYear();
               int currentYearInt = int.parse(currentYear);
