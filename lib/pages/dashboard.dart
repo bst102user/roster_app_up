@@ -346,7 +346,6 @@ class DashboardState extends State<Dashboard>{
       if(attendanceIdInt == null){
         attendanceIdInt = '0';
       }
-      // var status = d["success"];
       if (status != 'success') {
         CommonMethods.showToast('No Scheduler found');
       } else {

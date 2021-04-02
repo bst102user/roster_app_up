@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NextWeekPage extends StatelessWidget{
+  int clockStatus;
 
   int getNumberOfDayOfWeek(){
     DateTime date = DateTime.now();
@@ -58,11 +59,22 @@ class NextWeekPage extends StatelessWidget{
       print(response.body);
       Map<String, dynamic> d = json.decode(loginResponse.trim());
       var status = d["success"];
+      // clockStatus = d["clock_status"];
+      // attendanceIdInt = d["attendanceID"];
+      // if(attendanceIdInt == null){
+      //   attendanceIdInt = '0';
+      // }
       if (status != 'success') {
         CommonMethods.showToast('No Scheduler found');
       } else {
         SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
         List<Datum> userSchedule = schedulerModel.data;
+        // for(int x=0;x<userSchedule.length;x++){
+        //   String getTomorrowDate = getTomorrow();
+        //   if(getTomorrowDate == userSchedule[x].scheduleDate){
+        //     isScheduleTomorrow = true;
+        //   }
+        // }
         if(userSchedule.length == 0){
           return 'data_not_found';
         }
@@ -82,10 +94,31 @@ class NextWeekPage extends StatelessWidget{
               shouldLen--;
             }
             else {
-              int serverDate = int.parse(
-                  userSchedule[i].scheduleDate.split('-')[0]);
-              if (mtFirstDateInt == 31) {
-                mtFirstDateInt = 1;
+              int serverDate = int.parse(userSchedule[i].scheduleDate.split('-')[2]);
+              String currentMonth = userSchedule[i].scheduleDate.split('-')[1];
+              String currentYear = CommonMethods.getCurrentYear();
+              int currentYearInt = int.parse(currentYear);
+              if(currentMonth == '01'||currentMonth == '03'||currentMonth == '05'||currentMonth == '07'||currentMonth == '08'||currentMonth == '10'||currentMonth == '12'){
+                if (mtFirstDateInt == 32) {
+                  mtFirstDateInt = 1;
+                }
+              }
+              else if(currentMonth == '04'||currentMonth == '06'||currentMonth == '09'||currentMonth == '11'){
+                if (mtFirstDateInt == 32) {
+                  mtFirstDateInt = 1;
+                }
+              }
+              else{
+                if (currentYearInt/4==0) {
+                  if(mtFirstDateInt == 29) {
+                    mtFirstDateInt = 1;
+                  }
+                }
+                else{
+                  if(mtFirstDateInt == 28) {
+                    mtFirstDateInt = 1;
+                  }
+                }
               }
               if (mtFirstDateInt != serverDate) {
                 testSchedule.add(new Datum(
@@ -101,6 +134,7 @@ class NextWeekPage extends StatelessWidget{
               mtFirstDateInt++;
             }
           }
+          // rosterIdCurrentDay = testSchedule[getNumberOfDayOfWeek()].rosterId.toString();
           if (userSchedule.length == 0) {
             return 'data_not_found';
           }
@@ -136,7 +170,8 @@ class NextWeekPage extends StatelessWidget{
                 style: TextStyle(
                     fontSize: 30.0,
                     fontFamily: '.SF UI Display',
-                    fontWeight: FontWeight.w800
+                    fontWeight: FontWeight.w800,
+                    color: app_theme_dark_color
                 ),
               ),
               userSchedule.scheduleStartTime == 'not found'?Padding(
@@ -168,7 +203,8 @@ class NextWeekPage extends StatelessWidget{
                       'Start Time: '+userSchedule.scheduleStartTime,
                       style: TextStyle(
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w600
+                          fontWeight: FontWeight.w600,
+                          color: app_theme_dark_color
                       ),
                     ),
                   ),
@@ -178,7 +214,8 @@ class NextWeekPage extends StatelessWidget{
                       'End Time: '+userSchedule.scheduleEndTime,
                       style: TextStyle(
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w600
+                          fontWeight: FontWeight.w600,
+                          color: app_theme_dark_color
                       ),
                     ),
                   ):Text(''),
