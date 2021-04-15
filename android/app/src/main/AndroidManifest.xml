@@ -12,7 +12,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="eRoster"
+        android:label="eRosterTest"
         android:icon="@mipmap/ic_launcher">
 
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">

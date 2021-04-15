@@ -1,7 +1,7 @@
 class ApiInterface{
   ///pacinos/public/pacinos
-  // static String URL_PREFIX = 'test/'; //test url prefix
-  static String URL_PREFIX = 'roster/'; //live url prefix
+   static String URL_PREFIX = 'test/'; //test url prefix
+  // static String URL_PREFIX = 'roster/'; //live url prefix
   static String BASE_URL = 'https://eroster.com.au/';
   static String LOGIN_USER = BASE_URL+URL_PREFIX+'public/api/signIn';
   static String SCHEDULER = BASE_URL+URL_PREFIX+'public/api/publishData';

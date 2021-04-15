@@ -82,7 +82,13 @@ class LoginState extends State<Login> {
                 Map<String, dynamic> d = json.decode(loginResponse.trim());
                 var status = d["status"];
                 if (status != 'success') {
-                  CommonMethods.showToast(d["massege"]);
+                  if(status == 'notRegistered'){
+                    CommonMethods.showToast(
+                        'Oops! You have entered invalid credentials');
+                  }
+                  else if(status == 'false'){
+                    CommonMethods.showToast('Invalid Login Device');
+                  }
                 } else {
                   LoginModel loginModal = loginModelFromJson(response.body);
                   SharedPreferences mPref = await SharedPreferences.getInstance();

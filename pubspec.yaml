@@ -51,6 +51,10 @@ dependencies:
   seekbar: ^0.0.2
   flutter_xlider: ^3.4.0
 
+  camera: ^0.7.0+2
+  path_provider: ^1.6.28
+  path: ^1.7.0
+
 
 dev_dependencies:
   flutter_test:

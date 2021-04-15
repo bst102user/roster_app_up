@@ -65,7 +65,7 @@ class NextWeekPage extends StatelessWidget{
       //   attendanceIdInt = '0';
       // }
       if (status != 'success') {
-        CommonMethods.showToast('No Scheduler found');
+        CommonMethods.showToast('We are experiencing a technical error. Please try again in sometime');
       } else {
         SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
         List<Datum> userSchedule = schedulerModel.data;

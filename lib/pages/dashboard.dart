@@ -347,7 +347,7 @@ class DashboardState extends State<Dashboard>{
         attendanceIdInt = '0';
       }
       if (status != 'success') {
-        CommonMethods.showToast('No Scheduler found');
+        CommonMethods.showToast('We are experiencing a technical error. Please try again in sometime');
       } else {
         SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
         List<Datum> userSchedule = schedulerModel.data;
@@ -778,7 +778,7 @@ class DashboardState extends State<Dashboard>{
                                             .toString(),beforeFlag,sharedValue[1],sharedValue[2]);
                                   }
                                   else {
-                                    CommonMethods.showToast('You are not at the location');
+                                    CommonMethods.showToast('Please check-in to your shift when you are at the Work Location');
                                   }
                                 });
                               });
