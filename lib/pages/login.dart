@@ -49,6 +49,8 @@ class LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
+    emailController.text = 'testingteam2@gmail.com';
+    passController.text = 'testing';
     // initPlatformState();
     getFcmToken();
   }
@@ -80,6 +82,7 @@ class LoginState extends State<Login> {
                 final String loginResponse = response.body;
                 print(response.body);
                 Map<String, dynamic> d = json.decode(loginResponse.trim());
+                // var status = d["status"];
                 var status = d["status"];
                 if (status != 'success') {
                   if(status == 'notRegistered'){
@@ -88,6 +91,9 @@ class LoginState extends State<Login> {
                   }
                   else if(status == 'false'){
                     CommonMethods.showToast('Invalid Login Device');
+                  }
+                  else if(status == 'Error'){
+                    CommonMethods.showToast('Same Device ID working in another account');
                   }
                 } else {
                   LoginModel loginModal = loginModelFromJson(response.body);
@@ -129,6 +135,7 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Padding(
