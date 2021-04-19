@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:roster_app/common/api_interface.dart';
@@ -14,7 +16,7 @@ class ShowRestaurant extends StatefulWidget {
 
 class ShowRestaurantState extends State<ShowRestaurant> {
   GetEntity selectedEntity;
-  List<GetEntity> entityList;
+  dynamic entityList;
 
   GetLocation selectedLocation;
   List<GetLocation> locationList;
@@ -27,16 +29,23 @@ class ShowRestaurantState extends State<ShowRestaurant> {
         // print('entityValue '+entityValue);
           if(entityValue != null){
             setState(() {
-              entityList = entityValue;
-              if(selectedEntity == null){
-                selectedEntity = entityList[0];
-                savePrefValue('user_entity', selectedEntity.entityId.toString());
-              }
-              getRestaurantLocations(userId, selectedEntity.entityId.toString()).then((locationValue){
+              if(entityValue == 'no_entity'){
                 setState(() {
-                  locationList = locationValue;
+                  entityList = 'no_entity';
                 });
-              });
+              }
+              else{
+                entityList = entityValue;
+                if(selectedEntity == null){
+                  selectedEntity = entityList[0];
+                  savePrefValue('user_entity', selectedEntity.entityId.toString());
+                }
+                getRestaurantLocations(userId, selectedEntity.entityId.toString()).then((locationValue){
+                  setState(() {
+                    locationList = locationValue;
+                  });
+                });
+              }
             });
           }
       });
@@ -72,22 +81,29 @@ class ShowRestaurantState extends State<ShowRestaurant> {
     if (response.statusCode == 200) {
       final String restrntResponse = response.body;
       print(response.body);
-      RestaurantModel restaurantModel = restaurantModelFromJson(
-          restrntResponse);
-      List<Entity> restrntList = restaurantModel.entity;
-      if(restrntList.length == 1){
-        isEntityOne = true;
-      }
-      if (restrntList.length != 0) {
-        List<GetEntity> gtEnttList = [];
-        for(int i=0;i<restrntList.length;i++){
-          GetEntity getEntity = restrntList[i].getEntity[0];
-          gtEnttList.add(getEntity);
-        }
-        return gtEnttList;
-      }
-      else {
+      Map<String, dynamic> resMap = json.decode(restrntResponse.trim());
+      var status = resMap['status'];
+      if(status == 'error'){
         return 'no_entity';
+      }
+      else{
+        RestaurantModel restaurantModel = restaurantModelFromJson(
+            restrntResponse);
+        List<Entity> restrntList = restaurantModel.entity;
+        if(restrntList.length == 1){
+          isEntityOne = true;
+        }
+        if (restrntList.length != 0) {
+          List<GetEntity> gtEnttList = [];
+          for(int i=0;i<restrntList.length;i++){
+            GetEntity getEntity = restrntList[i].getEntity[0];
+            gtEnttList.add(getEntity);
+          }
+          return gtEnttList;
+        }
+        else {
+          return 'no_entity';
+        }
       }
     }
     else {
@@ -163,175 +179,193 @@ class ShowRestaurantState extends State<ShowRestaurant> {
                             future: getEntity(),
                             builder: (context,snapshot){
                               if(snapshot.data == null||snapshot.data == ''){
-                                return Text('Select Entity');
+                                return Text(entityList=='no_entity'?'':'Select Entity');
+                              }
+                              else if(snapshot.data == 'no_entity'){
+                                return Center(
+                                  child: Text(
+                                    'You do not have any entity today'
+                                  ),
+                                );
                               }
                               else{
-                                return Text('Select Entity ('+snapshot.data+')');
+                                return Text(entityList=='no_entity'?'':'Select Entity ('+snapshot.data+')');
                               }
                             },
                           ),
                         ),
-                        entityList==null?Center(
+                        entityList=='no_entity'?Center(child: Text(
+                            'You do not have any entity today',
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            color: app_theme_dark_color,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )):Column(
+                          children: [
+                            entityList==null?Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CircularProgressIndicator(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Loading...',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        )
+                            CircularProgressIndicator(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Loading...',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            )
                       ],
                     ),
                   ):
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: app_theme_dark_color,
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: app_theme_dark_color,
+                                  ),
+                                  borderRadius: BorderRadius.all(Radius.circular(20))
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(20))
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 50.0,vertical: 5),
-                              child: DropdownButtonHideUnderline(
-                                child: new DropdownButton<GetEntity>(
-                                  value: selectedEntity,
-                                  isDense: true,
-                                  onChanged: (GetEntity newValue) {
-                                    selectedLocation = null;
-                                    setState(() {
-                                      selectedEntity = newValue;
-                                      savePrefValue('user_entity', selectedEntity.entityId.toString());
-                                      savePrefValue('user_entity_str', newValue.entityName);
-                                    });
-                                    getUserId().then((value){
-                                      getRestaurantLocations(value, selectedEntity.entityId.toString()).then((locationValue){
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 50.0,vertical: 5),
+                                  child: DropdownButtonHideUnderline(
+                                    child: new DropdownButton<GetEntity>(
+                                      value: selectedEntity,
+                                      isDense: true,
+                                      onChanged: (GetEntity newValue) {
+                                        selectedLocation = null;
                                         setState(() {
-                                          locationList = locationValue;
+                                          selectedEntity = newValue;
+                                          savePrefValue('user_entity', selectedEntity.entityId.toString());
+                                          savePrefValue('user_entity_str', newValue.entityName);
                                         });
-                                      });
-                                    });
-                                    print(selectedEntity);
-                                  },
-                                  items: entityList.map((GetEntity map) {
-                                    return new DropdownMenuItem<GetEntity>(
-                                      value: map,
-                                      child: new Text(map.entityName,
-                                          style: new TextStyle(color: Colors.black)),
-                                    );
-                                  }).toList(),
+                                        getUserId().then((value){
+                                          getRestaurantLocations(value, selectedEntity.entityId.toString()).then((locationValue){
+                                            setState(() {
+                                              locationList = locationValue;
+                                            });
+                                          });
+                                        });
+                                        print(selectedEntity);
+                                      },
+                                      items: entityList.map((GetEntity map) {
+                                        return new DropdownMenuItem<GetEntity>(
+                                          value: map,
+                                          child: new Text(map.entityName,
+                                              style: new TextStyle(color: Colors.black)),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
 
-                        locationList==null?Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              CircularProgressIndicator(),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Loading...',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ):
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: FutureBuilder(
-                                  future: getLocation(),
-                                  builder: (context,snapshot){
-                                    if(snapshot.data == null||snapshot.data == ''){
-                                      return Text('Select Location');
-                                    }
-                                    else{
-                                      return Text('Select Location ('+snapshot.data+')');
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: app_theme_dark_color,
+                            locationList==null?Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CircularProgressIndicator(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'Loading...',
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                ),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 50.0,vertical: 5),
-                                    child: DropdownButtonHideUnderline(
-                                      child: new DropdownButton<GetLocation>(
-                                        hint: Text('Select Location'),
-                                        value: selectedLocation,
-                                        isDense: true,
-                                        onChanged: (GetLocation newValue) {
-                                          setState(() {
-                                            selectedLocation = newValue;
-                                          });
-                                          print(selectedLocation);
-                                          savePrefValue('user_location', selectedLocation.locationId.toString());
-                                          savePrefValue('user_location_str', selectedLocation.locationAddress);
-                                        },
-                                        items: locationList.map((GetLocation map) {
-                                          return new DropdownMenuItem<GetLocation>(
-                                            value: map,
-                                            child: new Text(map.locationAddress,
-                                                style: new TextStyle(color: Colors.black)),
-                                          );
-                                        }).toList(),
+                                  )
+                                ],
+                              ),
+                            ):
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                    child: FutureBuilder(
+                                      future: getLocation(),
+                                      builder: (context,snapshot){
+                                        if(snapshot.data == null||snapshot.data == ''){
+                                          return Text('Select Location');
+                                        }
+                                        else{
+                                          return Text('Select Location ('+snapshot.data+')');
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: app_theme_dark_color,
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(20))
+                                    ),
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 50.0,vertical: 5),
+                                        child: DropdownButtonHideUnderline(
+                                          child: new DropdownButton<GetLocation>(
+                                            hint: Text('Select Location'),
+                                            value: selectedLocation,
+                                            isDense: true,
+                                            onChanged: (GetLocation newValue) {
+                                              setState(() {
+                                                selectedLocation = newValue;
+                                              });
+                                              print(selectedLocation);
+                                              savePrefValue('user_location', selectedLocation.locationId.toString());
+                                              savePrefValue('user_location_str', selectedLocation.locationAddress);
+                                            },
+                                            items: locationList.map((GetLocation map) {
+                                              return new DropdownMenuItem<GetLocation>(
+                                                value: map,
+                                                child: new Text(map.locationAddress,
+                                                    style: new TextStyle(color: Colors.black)),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Center(
-                            child: RaisedButton(
-                              color:app_theme_dark_color,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                              onPressed: ()async {
-                                if(selectedLocation == null){
-                                  CommonMethods.showToast('Please select entity and location');
-                                }
-                                else{
-                                  SharedPreferences mPref = await SharedPreferences.getInstance();
-                                  mPref.setBool("login_status", true);
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
-                                }
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 40.0,vertical: 8.0),
-                                child: Text(
-                                  "Continue",
-                                  style: TextStyle(
-                                      color: Colors.white
-                                  ),),
+                                ],
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: Center(
+                                child: RaisedButton(
+                                  color:app_theme_dark_color,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                  onPressed: ()async {
+                                    if(selectedLocation == null){
+                                      CommonMethods.showToast('Please select entity and location');
+                                    }
+                                    else{
+                                      SharedPreferences mPref = await SharedPreferences.getInstance();
+                                      mPref.setBool("login_status", true);
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 40.0,vertical: 8.0),
+                                    child: Text(
+                                      "Continue",
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),
