@@ -49,8 +49,8 @@ class LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    emailController.text = 'testingteam2@gmail.com';
-    passController.text = 'testing';
+//     emailController.text = 'testingteam2@gmail.com';
+//     passController.text = 'testing';
     // initPlatformState();
     getFcmToken();
   }
