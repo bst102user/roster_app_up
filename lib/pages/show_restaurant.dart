@@ -16,7 +16,7 @@ class ShowRestaurant extends StatefulWidget {
 
 class ShowRestaurantState extends State<ShowRestaurant> {
   GetEntity selectedEntity;
-  dynamic entityList;
+  List<GetEntity> entityList;
 
   GetLocation selectedLocation;
   List<GetLocation> locationList;
@@ -31,7 +31,7 @@ class ShowRestaurantState extends State<ShowRestaurant> {
             setState(() {
               if(entityValue == 'no_entity'){
                 setState(() {
-                  entityList = 'no_entity';
+                  // entityList = 'no_entity';
                 });
               }
               else{
