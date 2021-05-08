@@ -3,7 +3,7 @@ import 'package:clean_swiper/clean_swiper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:roster_app/common/api_interface.dart';
@@ -52,7 +52,7 @@ class DashboardState extends State<Dashboard>{
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   String isWorkLocation='0';
-  FlutterLocalNotificationsPlugin fltrNotification;
+  // FlutterLocalNotificationsPlugin fltrNotification;
   bool isScheduleTomorrow = false;
   String rosterIdCurrentDay;
   int clockStatus;
@@ -590,15 +590,15 @@ class DashboardState extends State<Dashboard>{
     });
     titleStr = 'My Roster';
 
-    var androidInitilize = new AndroidInitializationSettings('ic_launcher');
-    var iOSinitilize = new IOSInitializationSettings();
-    var initilizationsSettings =
-    new InitializationSettings(androidInitilize, iOSinitilize);
-    fltrNotification = new FlutterLocalNotificationsPlugin();
-    fltrNotification.initialize(initilizationsSettings,
-        onSelectNotification: notificationSelected);
-
-    _showNotification();
+    // var androidInitilize = new AndroidInitializationSettings('ic_launcher');
+    // var iOSinitilize = new IOSInitializationSettings();
+    // var initilizationsSettings =
+    // new InitializationSettings(androidInitilize, iOSinitilize);
+    // fltrNotification = new FlutterLocalNotificationsPlugin();
+    // fltrNotification.initialize(initilizationsSettings,
+    //     onSelectNotification: notificationSelected);
+    //
+    // _showNotification();
     _checkDeviceValidation();
 
   }
@@ -612,44 +612,44 @@ class DashboardState extends State<Dashboard>{
     );
   }
 
-  Future _showNotification() async {
-    var androidDetails = new AndroidNotificationDetails(
-        "Channel ID", "Roster", "This is for roster",
-        importance: Importance.Max);
-    var iSODetails = new IOSNotificationDetails();
-    var generalNotificationDetails =
-    new NotificationDetails(androidDetails, iSODetails);
-    var time = Time(07, 05, 30);
-
-    getPreferenceData().then((value)async{
-      var mBody = {
-        "remember_token": value[0],
-        "start_date": anyDayOfWeek(0),
-        "last_date": anyDayOfWeek(6),
-        "entityID": value[1],
-        "locationID": value[2],
-      };
-      final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
-      if (response.statusCode == 200) {
-        final String loginResponse = response.body;
-        print(response.body);
-        Map<String, dynamic> d = json.decode(loginResponse.trim());
-        var status = d["success"];
-        if (status == 'success') {
-          SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
-          List<Datum> userSchedule = schedulerModel.data;
-          for (int x = 0; x < userSchedule.length; x++) {
-            String getTomorrowDate = getToday();
-            if (getTomorrowDate == userSchedule[x].scheduleDate) {
-              fltrNotification.showDailyAtTime(
-                  1, 'Roster', 'You have Roster today ', time,
-                  generalNotificationDetails, payload: 'Check your schedule here');
-            }
-          }
-        }
-      }
-    });
-  }
+  // Future _showNotification() async {
+  //   var androidDetails = new AndroidNotificationDetails(
+  //       "Channel ID", "Roster", "This is for roster",
+  //       importance: Importance.Max);
+  //   var iSODetails = new IOSNotificationDetails();
+  //   var generalNotificationDetails =
+  //   new NotificationDetails(androidDetails, iSODetails);
+  //   var time = Time(07, 05, 30);
+  //
+  //   getPreferenceData().then((value)async{
+  //     var mBody = {
+  //       "remember_token": value[0],
+  //       "start_date": anyDayOfWeek(0),
+  //       "last_date": anyDayOfWeek(6),
+  //       "entityID": value[1],
+  //       "locationID": value[2],
+  //     };
+  //     final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
+  //     if (response.statusCode == 200) {
+  //       final String loginResponse = response.body;
+  //       print(response.body);
+  //       Map<String, dynamic> d = json.decode(loginResponse.trim());
+  //       var status = d["success"];
+  //       if (status == 'success') {
+  //         SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
+  //         List<Datum> userSchedule = schedulerModel.data;
+  //         for (int x = 0; x < userSchedule.length; x++) {
+  //           String getTomorrowDate = getToday();
+  //           if (getTomorrowDate == userSchedule[x].scheduleDate) {
+  //             fltrNotification.showDailyAtTime(
+  //                 1, 'Roster', 'You have Roster today ', time,
+  //                 generalNotificationDetails, payload: 'Check your schedule here');
+  //           }
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 
   Widget customPage(int pageNumber, Datum userSchedule){
     return Padding(

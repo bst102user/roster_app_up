@@ -32,18 +32,6 @@
       "languageVersion": "1.23"
     },
     {
-      "name": "camera",
-      "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/camera-0.7.0+2",
-      "packageUri": "lib/",
-      "languageVersion": "2.7"
-    },
-    {
-      "name": "camera_platform_interface",
-      "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/camera_platform_interface-1.5.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.7"
-    },
-    {
       "name": "characters",
       "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0",
       "packageUri": "lib/",
@@ -72,12 +60,6 @@
       "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "cross_file",
-      "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.1"
     },
     {
       "name": "cupertino_icons",
@@ -192,18 +174,6 @@
       "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_crashlytics-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.0"
-    },
-    {
-      "name": "flutter_local_notifications",
-      "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-1.5.0+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
-    },
-    {
-      "name": "flutter_local_notifications_platform_interface",
-      "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications_platform_interface-1.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.1"
     },
     {
       "name": "flutter_test",
@@ -440,12 +410,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "stream_transform",
-      "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/stream_transform-1.2.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.6"
-    },
-    {
       "name": "string_scanner",
       "rootUri": "file:///C:/flutter2/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0",
       "packageUri": "lib/",
@@ -494,7 +458,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-05-07T18:05:08.288821Z",
+  "generated": "2021-05-08T12:52:50.244593Z",
   "generator": "pub",
   "generatorVersion": "2.12.2"
 }
