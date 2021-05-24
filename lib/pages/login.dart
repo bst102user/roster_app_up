@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:android_multiple_identifier/android_multiple_identifier.dart';
-import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +7,9 @@ import 'package:location/location.dart';
 import 'package:roster_app/common/api_interface.dart';
 import 'package:roster_app/common/common_methods.dart';
 import 'package:roster_app/models/LoginModel.dart';
-import 'package:roster_app/models/location_model.dart';
-import 'package:roster_app/pages/dashboard.dart';
 import 'package:roster_app/pages/show_restaurant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-// import 'package:device_id/device_id.dart';
 
 class Login extends StatefulWidget {
   LoginState createState() => LoginState();

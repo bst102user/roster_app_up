@@ -1,16 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:clean_swiper/clean_swiper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:roster_app/common/api_interface.dart';
 import 'package:roster_app/common/common_methods.dart';
 import 'package:roster_app/models/location_model.dart';
 import 'package:roster_app/models/restaurant_model.dart';
 import 'package:roster_app/models/scheduler_model.dart';
+import 'package:roster_app/models/user_location.dart';
 import 'package:roster_app/pages/login.dart';
 import 'package:roster_app/pages/notification_page.dart';
 import 'package:roster_app/pages/profile_page.dart';
@@ -24,9 +28,13 @@ class Dashboard extends StatefulWidget{
 }
 
 class DashboardState extends State<Dashboard>{
-  Position _currentPosition;
-  String _currentAddress;
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  // Position _currentPosition;
+  // String _currentAddress;
+  // final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  var location = Location();
+  StreamController<UserLocation> _locationController = StreamController<UserLocation>();
+
+  Stream<UserLocation> get locationStream => _locationController.stream;
   bool isCurrentWeek = true;
   Widget bodyWidget;
   String mToken;
@@ -52,11 +60,15 @@ class DashboardState extends State<Dashboard>{
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   String isWorkLocation='0';
-  // FlutterLocalNotificationsPlugin fltrNotification;
+  FlutterLocalNotificationsPlugin fltrNotification;
   bool isScheduleTomorrow = false;
   String rosterIdCurrentDay;
   int clockStatus;
   String attendanceIdInt = '0';
+  // double changedLat = 0.0;
+  // double changedLong = 0.0;
+  double mLatitude = 0.0;
+  double mLongitude = 0.0;
 
 
   getPrefData() async {
@@ -103,30 +115,30 @@ class DashboardState extends State<Dashboard>{
   }
 
   _getCurrentLocation() {
-    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
+    location.requestPermission().then((permissionStatus) {
+      if (permissionStatus == PermissionStatus.granted) {
+        location.onLocationChanged.listen((locationData) {
+          mLatitude = locationData.latitude;
+          mLongitude = locationData.longitude;
+        });
+      }
     });
+
   }
 
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(_currentPosition.latitude, _currentPosition.longitude);
-      Placemark place = p[0];
-      setState(() {
-        _currentAddress = "${place.locality}, ${place.postalCode}, ${place.country}";
-        print(_currentPosition.latitude);
-        print(_currentPosition.longitude);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  // _getAddressFromLatLng() async {
+  //   try {
+  //     List<Placemark> p = await geolocator.placemarkFromCoordinates(_currentPosition.latitude, _currentPosition.longitude);
+  //     Placemark place = p[0];
+  //     setState(() {
+  //       _currentAddress = "${place.locality}, ${place.postalCode}, ${place.country}";
+  //       print(_currentPosition.latitude);
+  //       print(_currentPosition.longitude);
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   String anyDayOfWeek(int daysNum){
     DateTime today = DateTime.now();
@@ -159,7 +171,8 @@ class DashboardState extends State<Dashboard>{
     var mBody = {
       "remember_token": loginToken,
       "entity_id": entityId,
-      "location_id": locationId,};
+      "location_id": locationId,
+    };
     final response = await http.post(ApiInterface.GET_LOCATION, body: mBody);
     print(response.body);
     if (response.statusCode == 200) {
@@ -222,7 +235,6 @@ class DashboardState extends State<Dashboard>{
                 context,
                 MaterialPageRoute(builder: (context) => Login()),
                 ModalRoute.withName("/payment"));
-          // }
         }
       });
     });
@@ -321,7 +333,7 @@ class DashboardState extends State<Dashboard>{
   String getToday(){
     var now = new DateTime.now();
     final tomorrow = DateTime(now.year, now.month, now.day);
-    var formatter = new DateFormat('dd-MM-yyyy');
+    var formatter = new DateFormat('yyyy-MM-dd');
     String tomorrowDate = formatter.format(tomorrow);
     return tomorrowDate;
   }
@@ -589,18 +601,8 @@ class DashboardState extends State<Dashboard>{
       });
     });
     titleStr = 'My Roster';
-
-    // var androidInitilize = new AndroidInitializationSettings('ic_launcher');
-    // var iOSinitilize = new IOSInitializationSettings();
-    // var initilizationsSettings =
-    // new InitializationSettings(androidInitilize, iOSinitilize);
-    // fltrNotification = new FlutterLocalNotificationsPlugin();
-    // fltrNotification.initialize(initilizationsSettings,
-    //     onSelectNotification: notificationSelected);
-    //
-    // _showNotification();
     _checkDeviceValidation();
-
+    _showNotification();
   }
 
   Future notificationSelected(String payload) async {
@@ -612,44 +614,46 @@ class DashboardState extends State<Dashboard>{
     );
   }
 
-  // Future _showNotification() async {
-  //   var androidDetails = new AndroidNotificationDetails(
-  //       "Channel ID", "Roster", "This is for roster",
-  //       importance: Importance.Max);
-  //   var iSODetails = new IOSNotificationDetails();
-  //   var generalNotificationDetails =
-  //   new NotificationDetails(androidDetails, iSODetails);
-  //   var time = Time(07, 05, 30);
-  //
-  //   getPreferenceData().then((value)async{
-  //     var mBody = {
-  //       "remember_token": value[0],
-  //       "start_date": anyDayOfWeek(0),
-  //       "last_date": anyDayOfWeek(6),
-  //       "entityID": value[1],
-  //       "locationID": value[2],
-  //     };
-  //     final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
-  //     if (response.statusCode == 200) {
-  //       final String loginResponse = response.body;
-  //       print(response.body);
-  //       Map<String, dynamic> d = json.decode(loginResponse.trim());
-  //       var status = d["success"];
-  //       if (status == 'success') {
-  //         SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
-  //         List<Datum> userSchedule = schedulerModel.data;
-  //         for (int x = 0; x < userSchedule.length; x++) {
-  //           String getTomorrowDate = getToday();
-  //           if (getTomorrowDate == userSchedule[x].scheduleDate) {
-  //             fltrNotification.showDailyAtTime(
-  //                 1, 'Roster', 'You have Roster today ', time,
-  //                 generalNotificationDetails, payload: 'Check your schedule here');
-  //           }
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
+  Future _showNotification() async {
+    var androidDetails = new AndroidNotificationDetails(
+        "Channel ID", "Roster", "This is for roster",
+        importance: Importance.high);
+    var iSODetails = new IOSNotificationDetails();
+    var macDetails = new MacOSNotificationDetails();
+    var generalNotificationDetails =
+    new NotificationDetails();
+    var time = Time(00, 05, 30);
+
+    getPreferenceData().then((value)async{
+      var mBody = {
+        "remember_token": value[0],
+        "start_date": anyDayOfWeek(0),
+        "last_date": anyDayOfWeek(6),
+        "entityID": value[1],
+        "locationID": value[2],
+      };
+      final response = await http.post(ApiInterface.SCHEDULER, body: mBody);
+      if (response.statusCode == 200) {
+        final String loginResponse = response.body;
+        // print(response.body);
+        Map<String, dynamic> d = json.decode(loginResponse.trim());
+        var status = d["success"];
+        if (status == 'success') {
+          SchedulerModel schedulerModel = schedulerModelFromJson(response.body);
+          List<Datum> userSchedule = schedulerModel.data;
+          for (int x = 0; x < userSchedule.length; x++) {
+            String getTomorrowDate = getToday();
+            if (getTomorrowDate == userSchedule[x].scheduleDate) {
+              fltrNotification.showDailyAtTime(
+                  1, 'Roster', 'You have Roster today ', time,
+                  generalNotificationDetails, payload: 'Check your schedule here');
+            }
+          }
+        }
+      }
+    });
+  }
+
 
   Widget customPage(int pageNumber, Datum userSchedule){
     return Padding(
@@ -744,8 +748,8 @@ class DashboardState extends State<Dashboard>{
                             getPreferenceData().then((sharedValue){
                               getLocationData(sharedValue[0],sharedValue[1],sharedValue[2]).then((value){
                                 getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
-                                    _currentPosition.latitude,
-                                    _currentPosition.longitude).then((value){
+                                    mLatitude,
+                                    mLongitude).then((value){
                                       Navigator.pop(context);
                                   if (value <= 50.0) {
                                     DateTime now = DateTime.now();
@@ -801,8 +805,8 @@ class DashboardState extends State<Dashboard>{
                               getPreferenceData().then((sharedValue){
                                 getLocationData(sharedValue[0],sharedValue[1],sharedValue[2]).then((value){
                                   getDistanceBtwnTwoPoints(double.parse(value[0]), double.parse(value[1]),
-                                      _currentPosition.latitude,
-                                      _currentPosition.longitude).then((value) {
+                                      mLatitude,
+                                      mLongitude).then((value) {
                                         print('value'+value.toString());
                                         if(value <= 50.0){
                                           saveClockOutTime(CommonMethods.getCurrentTime(),'0',userSchedule.rosterId.toString());

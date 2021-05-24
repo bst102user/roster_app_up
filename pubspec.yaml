@@ -45,8 +45,8 @@ dependencies:
   android_intent: ^0.3.7+7
   location: ^3.1.0
   bubble_tab_indicator: ^0.1.4
-#  flutter_local_notifications: ^1.4.4+2
-  android_multiple_identifier: ^1.0.3
+  flutter_local_notifications: ^4.0.1+2
+#  android_multiple_identifier: ^1.0.3
   device_info: any
   seekbar: ^0.0.2
   flutter_xlider: ^3.4.0

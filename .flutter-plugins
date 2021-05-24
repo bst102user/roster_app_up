@@ -1,7 +1,6 @@
 # This is a generated file; do not edit or check into version control.
 android_intent=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\android_intent-0.3.7+7\\
-android_multiple_identifier=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\android_multiple_identifier-1.0.3\\
-device_info=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\device_info-1.0.0\\
+device_info=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\device_info-2.0.0\\
 firebase_analytics=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_analytics-6.3.0\\
 firebase_analytics_web=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_analytics_web-0.1.1\\
 firebase_core=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-0.5.3\\
@@ -10,6 +9,7 @@ firebase_dynamic_links=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.o
 firebase_messaging=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_messaging-7.0.3\\
 firebase_performance=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_performance-0.4.3\\
 flutter_crashlytics=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_crashlytics-1.0.0\\
+flutter_local_notifications=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_local_notifications-4.0.1+2\\
 fluttertoast=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\fluttertoast-7.1.1\\
 geolocator=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\geolocator-5.3.2+2\\
 google_api_availability=C:\\flutter2\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_api_availability-2.0.4\\
